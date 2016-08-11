@@ -67,7 +67,6 @@ public class UserFriends extends HttpServlet {
             return;
         }
 
-
         req.setAttribute("myUsersFindResult", myUsersFindResult);
         req.setAttribute("myUsersQueryFriends", myUserDao.findQueryFriends(myUser));
         req.setAttribute("myUsersFriends", myUserDao.findFriedns(myUser));

@@ -1,3 +1,4 @@
+<%--suppress HtmlUnknownTag --%>
 <%@ page import="model.MyUser" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <jsp:useBean id="l" type="services.MyLocaleServiceHelper" scope="request"/>
@@ -50,7 +51,17 @@
                         <th bgcolor="#FBF0DB">
                             <a href="${pageContext.request.contextPath}/?id=<%=myUser.getId()%>"><%=myUser.getLastName()%> <%=myUser.getFirstName()%></a>
                         </th>
-                        <td>ячейка 2</td>
+                        <td>
+                            <%if (myUsersFriends.contains(myUser)) {%>
+                                <a href="${pageContext.request.contextPath}/myFriends?cancel&id=<%=myUser.getId()%>"><%=l.get("Cancel friend")%></a>
+                            <%} else if (myUsersMyQueryFriends.contains(myUser)) {%>
+                                <a href="${pageContext.request.contextPath}/myFriends?cancel&id=<%=myUser.getId()%>"><%=l.get("Cancel query")%></a>
+                            <%} else if (myUsersQueryFriends.contains(myUser)) {%>
+                                <a href="${pageContext.request.contextPath}/myFriends?add&id=<%=myUser.getId()%>"><%=l.get("Accept friend query")%></a>
+                            <%} else {%>
+                                <a href="${pageContext.request.contextPath}/myFriends?add&id=<%=myUser.getId()%>"><%=l.get("Query friend accept")%></a>
+                            <%}%>
+                        </td>
                     </tr>
             <%}%>
             </table>
@@ -71,7 +82,7 @@
                         <a href="${pageContext.request.contextPath}/?id=<%=myUser.getId()%>"><%=myUser.getLastName()%> <%=myUser.getFirstName()%></a>
                     </th>
                     <td>
-                        <a href="${pageContext.request.contextPath}/myFriends?add&id=<%=myUser.getId()%>"><%=l.get("Accept query")%></a>
+                        <a href="${pageContext.request.contextPath}/myFriends?add&id=<%=myUser.getId()%>"><%=l.get("Accept friend query")%></a>
                     </td>
                 </tr>
                 <tr>
