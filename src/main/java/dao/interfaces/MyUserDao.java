@@ -2,8 +2,7 @@ package dao.interfaces;
 
 import model.MyUser;
 
-import java.util.Collection;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public interface MyUserDao {
@@ -31,10 +30,12 @@ public interface MyUserDao {
     }
 
     default Collection<MyUser> findByStr(String str) {
+        if (str.isEmpty()) return new HashSet<>();
+
         String lcStr = str.toLowerCase();
         return findAll().parallelStream()
-                .filter(myUser -> myUser.getLastName().toLowerCase().indexOf(lcStr) != -1 ||
-                        myUser.getFirstName().toLowerCase().indexOf(lcStr) != -1).collect(Collectors.toList());
+                .filter(myUser -> myUser.getLastName().toLowerCase().contains(lcStr) ||
+                        myUser.getFirstName().toLowerCase().contains(lcStr)).collect(Collectors.toList());
     }
 
     Collection<MyUser> findQueryFriends(MyUser myUser);
@@ -43,5 +44,4 @@ public interface MyUserDao {
 
     void friendQueryAdd(MyUser myUser, long extUser);
     void friendQueryCancel(MyUser myUser, long extUser);
-    void friendQueryAccept(MyUser myUser, long extUser);
 }

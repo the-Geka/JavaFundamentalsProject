@@ -26,15 +26,18 @@ public class UserPage extends HttpServlet {
 
     private static final String NAME = "userPage";
     private static final String VIEW = "/userPage.jsp";
+    private static final String CONTROL = "/";
 
     private MyLocaleService myLocaleService;
     private SecurityService securityService;
+    private MyUserDao myUserDao;
 
 
     @Override
     public void init(ServletConfig config) throws ServletException {
         super.init(config);
         myLocaleService = (MyLocaleService) config.getServletContext().getAttribute(MYLOCALE_SERVICE);
+        myUserDao = (MyUserDao) config.getServletContext().getAttribute(MYUSER_DAO);
         securityService = (SecurityService) config.getServletContext().getAttribute(SECURITY_SERVICE);
     }
 
@@ -42,10 +45,27 @@ public class UserPage extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         HttpSession session = req.getSession(true);
 
-        req.setAttribute("myUser", ofNullable(req.getParameter("id"))
+        MyUser myCurrentUser = (MyUser) session.getAttribute(MYUSER);
+
+        MyUser myUser = ofNullable(req.getParameter("id"))
                 .map(Long::parseLong)
                 .flatMap(securityService::checkAndGetMyUser)
-                .orElse((MyUser) session.getAttribute(MYUSER)));
+                .orElse(myCurrentUser);
+
+        boolean itsMe = myCurrentUser.getId() == myUser.getId();
+        req.setAttribute("itsMe", itsMe);
+
+        if (itsMe && req.getParameter("id") != null) {
+            resp.sendRedirect(CONTROL);
+            return;
+        }
+
+
+        req.setAttribute("myUser", myUser);
+
+        req.setAttribute("myUsersQueryFriends", myUserDao.findQueryFriends(myCurrentUser));
+        req.setAttribute("myUsersFriends", myUserDao.findFriedns(myCurrentUser));
+        req.setAttribute("myUsersMyQueryFriends", myUserDao.findMyQueryFriends(myCurrentUser));
 
         req.setAttribute(REQUESTED_URL, req.getRequestURI() + ofNullable(req.getQueryString()).map(s -> "?" + s).orElse(""));
         req.setAttribute("l", myLocaleService.getLocalizedFields(NAME, req));

@@ -49,7 +49,7 @@ public class UserFriends extends HttpServlet {
         MyUser myUser = (MyUser) session.getAttribute(MYUSER);
 
         Collection<MyUser> myUsersFindResult = ofNullable(req.getParameter("inputFindStr"))
-                .map(myUserDao::findByStr).orElse(Collections.emptyList());
+                .map(myUserDao::findByStr).orElse(new HashSet<>());
 
         if (req.getParameter("add") != null) {
             ofNullable(req.getParameter("id"))
@@ -67,10 +67,18 @@ public class UserFriends extends HttpServlet {
             return;
         }
 
-        req.setAttribute("myUsersFindResult", myUsersFindResult);
         req.setAttribute("myUsersQueryFriends", myUserDao.findQueryFriends(myUser));
         req.setAttribute("myUsersFriends", myUserDao.findFriedns(myUser));
         req.setAttribute("myUsersMyQueryFriends", myUserDao.findMyQueryFriends(myUser));
+
+        if (myUsersFindResult.size() > 0) {
+            myUsersFindResult.removeAll(myUserDao.findQueryFriends(myUser));
+            myUsersFindResult.removeAll(myUserDao.findFriedns(myUser));
+            myUsersFindResult.removeAll(myUserDao.findMyQueryFriends(myUser));
+            myUsersFindResult.remove(myUser);
+        }
+
+        req.setAttribute("myUsersFindResult", myUsersFindResult);
 
 
         req.setAttribute(REQUESTED_URL, req.getRequestURI() + ofNullable(req.getQueryString()).map(s -> "?" + s).orElse(""));

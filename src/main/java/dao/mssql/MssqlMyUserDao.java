@@ -203,6 +203,7 @@ public class MssqlMyUserDao implements MyUserDao {
         return myUsers;
     }
 
+    @Override
     public void friendQueryAdd(MyUser myUser, long extUser) {
         String query = "INSERT INTO Friends (userID_left, userID_right) VALUES (?,?)";
 
@@ -217,6 +218,7 @@ public class MssqlMyUserDao implements MyUserDao {
         }
     }
 
+    @Override
     public void friendQueryCancel(MyUser myUser, long extUser) {
         String query = "DELETE FROM Friends WHERE userID_left = '" + myUser.getId() + "'" + " AND userID_right = '" + extUser + "'";
 
@@ -227,10 +229,6 @@ public class MssqlMyUserDao implements MyUserDao {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-    }
-
-    public void friendQueryAccept(MyUser myUser, long extUser) {
-        friendQueryAdd(new MyUser(extUser, "", "", "", "", -1), myUser.getId());
     }
 
 }
