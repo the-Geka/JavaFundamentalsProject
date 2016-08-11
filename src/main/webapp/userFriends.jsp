@@ -46,23 +46,27 @@
                     <col width="200">
                 </colgroup>
             <% for (MyUser myUser: myUsersFindResult) {%>
-
-                    <tr>
-                        <th bgcolor="#FBF0DB">
-                            <a href="${pageContext.request.contextPath}/?id=<%=myUser.getId()%>"><%=myUser.getLastName()%> <%=myUser.getFirstName()%></a>
-                        </th>
-                        <td>
-                            <%if (myUsersFriends.contains(myUser)) {%>
-                                <a href="${pageContext.request.contextPath}/myFriends?cancel&id=<%=myUser.getId()%>"><%=l.get("Cancel friend")%></a>
-                            <%} else if (myUsersMyQueryFriends.contains(myUser)) {%>
-                                <a href="${pageContext.request.contextPath}/myFriends?cancel&id=<%=myUser.getId()%>"><%=l.get("Cancel query")%></a>
-                            <%} else if (myUsersQueryFriends.contains(myUser)) {%>
-                                <a href="${pageContext.request.contextPath}/myFriends?add&id=<%=myUser.getId()%>"><%=l.get("Accept friend query")%></a>
-                            <%} else {%>
-                                <a href="${pageContext.request.contextPath}/myFriends?add&id=<%=myUser.getId()%>"><%=l.get("Query friend accept")%></a>
-                            <%}%>
-                        </td>
-                    </tr>
+                <tr>
+                    <th rowspan="2" bgcolor="#ffe4c4">
+                        <a href="${pageContext.request.contextPath}/?id=<%=myUser.getId()%>"><%=myUser.getLastName()%> <%=myUser.getFirstName()%></a>
+                    </th>
+                    <td>
+                        <%if (myUsersFriends.contains(myUser)) {%>
+                            <a href="${pageContext.request.contextPath}/myFriends?cancel&id=<%=myUser.getId()%>"><%=l.get("Cancel friend")%></a>
+                        <%} else if (myUsersMyQueryFriends.contains(myUser)) {%>
+                            <a href="${pageContext.request.contextPath}/myFriends?cancel&id=<%=myUser.getId()%>"><%=l.get("Cancel query")%></a>
+                        <%} else if (myUsersQueryFriends.contains(myUser)) {%>
+                            <a href="${pageContext.request.contextPath}/myFriends?add&id=<%=myUser.getId()%>"><%=l.get("Accept friend query")%></a>
+                        <%} else {%>
+                            <a href="${pageContext.request.contextPath}/myFriends?add&id=<%=myUser.getId()%>"><%=l.get("Query friend accept")%></a>
+                        <%}%>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <a href="${pageContext.request.contextPath}/myMessage&id=<%=myUser.getId()%>"><%=l.get("SendMessage")%></a>
+                    </td>
+                </tr>
             <%}%>
             </table>
             <%}%>
@@ -86,7 +90,9 @@
                     </td>
                 </tr>
                 <tr>
-                    <td>ячейка 3</td>
+                    <td>
+                        <a href="${pageContext.request.contextPath}/myMessage&id=<%=myUser.getId()%>"><%=l.get("SendMessage")%></a>
+                    </td>
                 </tr>
                 <%}%>
             </table>
@@ -112,7 +118,9 @@
                     </td>
                 </tr>
                 <tr>
-                    <td>ячейка 3</td>
+                    <td>
+                        <a href="${pageContext.request.contextPath}/myMessage&id=<%=myUser.getId()%>"><%=l.get("SendMessage")%></a>
+                    </td>
                 </tr>
                 <%}%>
             </table>
@@ -139,7 +147,9 @@
                     </td>
                 </tr>
                 <tr>
-                    <td>ячейка 3</td>
+                    <td>
+                        <a href="${pageContext.request.contextPath}/myMessage&id=<%=myUser.getId()%>"><%=l.get("SendMessage")%></a>
+                    </td>
                 </tr>
                 <%}%>
             </table>
