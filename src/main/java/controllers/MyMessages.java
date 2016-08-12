@@ -1,6 +1,8 @@
 package controllers;
 
+import dao.interfaces.MyMessageDao;
 import dao.interfaces.MyUserDao;
+import model.MyMessage;
 import model.MyUser;
 import services.MyLocaleService;
 import services.SecurityService;
@@ -14,14 +16,13 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import java.io.IOException;
+import java.util.Date;
 import java.util.Optional;
 
 import static filters.SecurityFilter.MYUSER;
 import static filters.SecurityFilter.REQUESTED_URL;
 import static java.util.Optional.ofNullable;
-import static listeners.DaoProvider.MYLOCALE_SERVICE;
-import static listeners.DaoProvider.MYUSER_DAO;
-import static listeners.DaoProvider.SECURITY_SERVICE;
+import static listeners.DaoProvider.*;
 
 @WebServlet("/myMessages")
 public class MyMessages extends HttpServlet {
@@ -33,6 +34,7 @@ public class MyMessages extends HttpServlet {
 
     private MyUserDao myUserDao;
     private MyLocaleService myLocaleService;
+    private MyMessageDao myMessageDao;
     private SecurityService securityService;
 
 
@@ -41,6 +43,7 @@ public class MyMessages extends HttpServlet {
         super.init(config);
         myLocaleService = (MyLocaleService) config.getServletContext().getAttribute(MYLOCALE_SERVICE);
         myUserDao = (MyUserDao) config.getServletContext().getAttribute(MYUSER_DAO);
+        myMessageDao = (MyMessageDao) config.getServletContext().getAttribute(MYMESSAGE_DAO);
         securityService = (SecurityService) config.getServletContext().getAttribute(SECURITY_SERVICE);
 
     }
@@ -62,6 +65,20 @@ public class MyMessages extends HttpServlet {
         req.setAttribute(REQUESTED_URL, req.getRequestURI() + ofNullable(req.getQueryString()).map(s -> "?" + s).orElse(""));
         req.setAttribute("l", myLocaleService.getLocalizedFields(NAME, req));
         if (myChatUser.isPresent()) {
+
+            ofNullable(req.getParameter("msg"))
+                    .map(name -> new MyMessage(myUser.getId(), myChatUser.get().getId(), new Date(), name, true))
+                    .ifPresent(myMessageDao::add);
+
+            int offset = ofNullable(req.getParameter("offset"))
+                    .map(Integer::parseInt).orElse(0);
+            offset *= 10;
+
+            req.setAttribute("myMessages",  myMessageDao.findMessages(myUser, myChatUser.get(), offset));
+
+
+
+
             req.setAttribute("myChatUser", myChatUser.get());
             req.getRequestDispatcher(VIEW_CHAT).forward(req, resp);
         } else

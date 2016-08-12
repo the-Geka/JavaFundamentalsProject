@@ -18,4 +18,6 @@ public class MyMessage {
     @Size(max=128)
     private final String text;
 
+    private final boolean isRead;
+
 }

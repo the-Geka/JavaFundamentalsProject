@@ -22,6 +22,7 @@ public class DaoProvider implements ServletContextListener {
     public static final String MYSERVLETFIELD_DAO = "myServletFieldDao";
     public static final String MYSERVLETFIELDLOCALE_DAO = "myServletFieldLocaleDao";
     public static final String MYUSER_DAO = "myUserDao";
+    public static final String MYMESSAGE_DAO = "myMessageDao";
 
     public static final String MYLOCALE_SERVICE = "myLocaleService";
     public static final String SECURITY_SERVICE = "securityService";
@@ -51,6 +52,7 @@ public class DaoProvider implements ServletContextListener {
             MyServletFieldDao myServletFieldDao = new MssqlMyServletFieldDao(connectionSupplier);
             MyServletFieldLocaleDao myServletFieldLocaleDao = new MssqlMyServletFieldLocaleDao(connectionSupplier);
             MyUserDao myUserDao = new MssqlMyUserDao(connectionSupplier);
+            MyMessageDao myMessageDao = new MssqlMyMessageDao(connectionSupplier);
 
             MyLocaleService myLocaleService = new MyLocaleService(myMyLocaleDao, myServletDao, myServletFieldDao,
                     myServletFieldLocaleDao);
@@ -61,6 +63,7 @@ public class DaoProvider implements ServletContextListener {
             servletContext.setAttribute(MYSERVLET_DAO, myServletDao);
             servletContext.setAttribute(MYSERVLETFIELD_DAO, myServletFieldDao);
             servletContext.setAttribute(MYSERVLETFIELDLOCALE_DAO, myServletFieldLocaleDao);
+            servletContext.setAttribute(MYMESSAGE_DAO, myMessageDao);
             servletContext.setAttribute(MYUSER_DAO, myUserDao);
 
             servletContext.setAttribute(MYLOCALE_SERVICE, myLocaleService);

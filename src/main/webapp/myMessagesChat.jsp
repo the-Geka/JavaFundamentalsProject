@@ -30,7 +30,7 @@
             <h4><div style="text-align: left;"><%=l.get("Messages with user. IsEmpty")%></div></h4>
 
 
-            <form method="POST" action="${pageContext.request.contextPath}/myMessages?requestedUrl=${requestedUrl}">
+            <form method="POST" action="${pageContext.request.contextPath}${requestedUrl}">
                 <p><label for="msg"><%=l.get("TextMessage")%> (128)</label></p>
                 <p><textarea rows="6" cols="60" name="msg" id="msg" maxlength="128"></textarea></p>
                 <p><input type="submit" value="<%=l.get("Submit")%>"/></p>
