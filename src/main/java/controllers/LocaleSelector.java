@@ -1,4 +1,4 @@
-package controllers.localeSelector;
+package controllers;
 
 import core.HTTPSltRespE;
 import model.MyUser;

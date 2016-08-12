@@ -50,9 +50,10 @@ public class SignUp extends HttpServlet {
 
         if (myUserOptional.isPresent()) {
             session.setAttribute(MYUSER, myUserOptional.get());
-            req.getRequestDispatcher(
-                    ofNullable(req.getParameter(REQUESTED_URL)).orElse("/"))
-                    .forward(req, resp);
+            resp.sendRedirect(ofNullable(req.getParameter(REQUESTED_URL)).orElse("/"));
+//            req.getRequestDispatcher(
+//                    ofNullable(req.getParameter(REQUESTED_URL)).orElse("/"))
+//                    .forward(req, resp);
         } else {
             req.setAttribute(REQUESTED_URL, ofNullable(req.getParameter(REQUESTED_URL)).orElse("/"));
             //req.setAttribute(REQUESTED_URL, req.getRequestURI() + ofNullable(req.getQueryString()).map(s -> "?" + s).orElse(""));
@@ -95,11 +96,11 @@ public class SignUp extends HttpServlet {
             Set<ConstraintViolation<Object>> constraintViolations = validator.validate(newMyUser);
 
             for (ConstraintViolation<Object> cv : constraintViolations)
-                actionStatus += cv.getMessage() + ". ";
+                actionStatus += myLocaleServiceHelper.get(cv.getMessage()) + ".<br>";
 
             if (constraintViolations.size() == 0)
                 if (securityService.checkMyUserIsExist(uiEmail))
-                    actionStatus += "Error. User is already exist";
+                    actionStatus += myLocaleServiceHelper.get("Error. User is already exist");
                 else
                     myUserOptional = of(securityService.addNewMyUser(newMyUser));
         }

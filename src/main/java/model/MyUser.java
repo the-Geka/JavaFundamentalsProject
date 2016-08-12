@@ -25,7 +25,7 @@ public class MyUser {
     private final String lastName;
 
     @NotNull (message = "Error. FirstName. Not present")
-    @Size(max = 30, min = 2, message = "Error. firstName. Size")
+    @Size(max = 30, min = 2, message = "Error. FirstName. Size")
     private final String firstName;
 
     private final long localeId;

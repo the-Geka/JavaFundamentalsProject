@@ -25,11 +25,10 @@ import static listeners.DaoProvider.MYLOCALE_SERVICE;
 import static listeners.DaoProvider.MYUSER_DAO;
 
 @WebServlet("/myFriends")
-public class UserFriends extends HttpServlet {
+public class MyFriends extends HttpServlet {
 
-
-    private static final String NAME = "userFriends";
-    private static final String VIEW = "/userFriends.jsp";
+    private static final String NAME = "myFriends";
+    private static final String VIEW = "/myFriends.jsp";
     private static final String CONTROL = "/myFriends";
 
     private MyLocaleService myLocaleService;
@@ -40,7 +39,6 @@ public class UserFriends extends HttpServlet {
         super.init(config);
         myLocaleService = (MyLocaleService) config.getServletContext().getAttribute(MYLOCALE_SERVICE);
         myUserDao = (MyUserDao) config.getServletContext().getAttribute(MYUSER_DAO);
-
     }
 
     @Override
@@ -70,6 +68,8 @@ public class UserFriends extends HttpServlet {
         req.setAttribute("myUsersQueryFriends", myUserDao.findQueryFriends(myUser));
         req.setAttribute("myUsersFriends", myUserDao.findFriedns(myUser));
         req.setAttribute("myUsersMyQueryFriends", myUserDao.findMyQueryFriends(myUser));
+        req.setAttribute("myUsersQueryFriendsSize", myUserDao.findQueryFriends(myUser).size());
+
 
         if (myUsersFindResult.size() > 0) {
             myUsersFindResult.removeAll(myUserDao.findQueryFriends(myUser));

@@ -26,24 +26,6 @@ public class MssqlMyUserDao implements MyUserDao {
         return connectionSupplier.get();
     }
 
-    public void addVoid(MyUser myUser) {
-        String query = "INSERT INTO Users (email, password, lastName, firstName, localeID) VALUES (?,?,?,?,?)";
-
-        try (Connection connection = getConnection(); PreparedStatement ps = connection.prepareStatement(query)) {
-            ps.setString(1, myUser.getEmail());
-            ps.setString(2, myUser.getPassword());
-            ps.setString(3, myUser.getLastName());
-            ps.setString(4, myUser.getFirstName());
-            ps.setLong(5, myUser.getLocaleId());
-
-            if (ps.executeUpdate() != 1)
-                throw new SQLException("ADD ERROR");
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-        reload();
-    }
-
     @Override
     public MyUser add(MyUser myUser) {
         String query = "INSERT INTO Users (email, password, lastName, firstName, localeID) VALUES (?,?,?,?,?)";

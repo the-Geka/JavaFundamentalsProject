@@ -7,6 +7,7 @@
 <jsp:useBean id="myUsersFriends" type="java.util.Collection<model.MyUser>" scope="request"/>
 <jsp:useBean id="myUsersMyQueryFriends" type="java.util.Collection<model.MyUser>" scope="request"/>
 <jsp:useBean id="myUsersFindResult" type="java.util.Collection<model.MyUser>" scope="request"/>
+<jsp:useBean id="myUsersQueryFriendsSize" type="java.lang.Integer" scope="request"/>
 <html>
 <head>
     <meta charset="UTF-8">
@@ -22,7 +23,7 @@
     <tr>
         <td valign="top">
             <div><a href="${pageContext.request.contextPath}/"><%=l.get("Menu. My page")%></a></div>
-            <div><a href="${pageContext.request.contextPath}/myFriends"><%=l.get("Menu. My friends")%></a></div>
+            <div><a href="${pageContext.request.contextPath}/myFriends"><%=l.get("Menu. My friends")%>(${myUsersQueryFriendsSize})</a></div>
             <div><a href="${pageContext.request.contextPath}/myMessages"><%=l.get("Menu. My message")%></a></div>
             <br/>
             <div><a href="${pageContext.request.contextPath}/?signOut"><%=l.get("Menu. SignOut")%></a></div>
@@ -64,7 +65,7 @@
                 </tr>
                 <tr>
                     <td>
-                        <a href="${pageContext.request.contextPath}/myMessage&id=<%=myUser.getId()%>"><%=l.get("SendMessage")%></a>
+                        <a href="${pageContext.request.contextPath}/myMessages?id=<%=myUser.getId()%>"><%=l.get("SendMessage")%></a>
                     </td>
                 </tr>
             <%}%>
@@ -91,7 +92,7 @@
                 </tr>
                 <tr>
                     <td>
-                        <a href="${pageContext.request.contextPath}/myMessage&id=<%=myUser.getId()%>"><%=l.get("SendMessage")%></a>
+                        <a href="${pageContext.request.contextPath}/myMessages?id=<%=myUser.getId()%>"><%=l.get("SendMessage")%></a>
                     </td>
                 </tr>
                 <%}%>
@@ -119,7 +120,7 @@
                 </tr>
                 <tr>
                     <td>
-                        <a href="${pageContext.request.contextPath}/myMessage&id=<%=myUser.getId()%>"><%=l.get("SendMessage")%></a>
+                        <a href="${pageContext.request.contextPath}/myMessages?id=<%=myUser.getId()%>"><%=l.get("SendMessage")%></a>
                     </td>
                 </tr>
                 <%}%>
@@ -148,7 +149,7 @@
                 </tr>
                 <tr>
                     <td>
-                        <a href="${pageContext.request.contextPath}/myMessage&id=<%=myUser.getId()%>"><%=l.get("SendMessage")%></a>
+                        <a href="${pageContext.request.contextPath}/myMessages?id=<%=myUser.getId()%>"><%=l.get("SendMessage")%></a>
                     </td>
                 </tr>
                 <%}%>
@@ -164,7 +165,7 @@
 </table>
 
 <br/>
-<div align="right"><a href="${pageContext.request.contextPath}/localeSelector?requestedUrl=${requestedUrl}"><%=l.get("LANGUAGE")%></a></div>
+<div align="center"><a href="${pageContext.request.contextPath}/localeSelector?requestedUrl=${requestedUrl}"><%=l.get("LANGUAGE")%></a></div>
 
 </body>
 </html>

@@ -17,7 +17,7 @@ public class MyLocaleServiceHelper {
     }
 
     public String get(String field) {
-        //return ofNullable(map.get(field)).orElse(servletName + "!" + localeId + "!" + field);
-        return ofNullable(map.get(field)).orElse("!" + field);
+        return ofNullable(map.get(field)).orElse(servletName + "!" + localeId + "!" + field);
+        //return ofNullable(map.get(field)).orElse("!" + field);
     }
 }

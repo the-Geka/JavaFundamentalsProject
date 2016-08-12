@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.*;
 
-import static controllers.localeSelector.LocaleSelector.MYLOCALE_ID;
+import static controllers.LocaleSelector.MYLOCALE_ID;
 import static filters.SecurityFilter.MYUSER;
 import static java.util.Arrays.stream;
 import static java.util.Optional.ofNullable;
