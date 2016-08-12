@@ -58,6 +58,10 @@
                         <br/>
 
                         <a href="${pageContext.request.contextPath}/myMessages?id=<%=myUser.getId()%>"><%=l.get("SendMessage")%></a>
+                    <%} else {%>
+                        <div style="text-align: center;">ЭТО ВЫ</div>
+                        <div style="text-align: center;">USER ID: <%=myUser.getId()%></div>
+
                     <%}%>
 
                     <br/>
