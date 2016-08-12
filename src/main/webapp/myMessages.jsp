@@ -1,7 +1,11 @@
+<%@ page import="model.MyMessage" %>
+<%@ page import="model.MyUser" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <jsp:useBean id="l" type="services.MyLocaleServiceHelper" scope="request"/>
 <jsp:useBean id="requestedUrl" type="java.lang.String" scope="request"/>
 <jsp:useBean id="myUsersQueryFriendsSize" type="java.lang.Integer" scope="request"/>
+<jsp:useBean id="myChatsUsers" type="java.util.Collection<model.MyMessage>" scope="request"/>
+<jsp:useBean id="securityService" type="services.SecurityService" scope="request"/>
 
 <html>
 <head>
@@ -26,9 +30,29 @@
 
         <td valign="top">
             <h3><div style="text-align: center;"><%=l.get("Messages List")%></div></h3>
-            <h4><div style="text-align: left;"><%=l.get("Messages List. IsEmpty")%></div></h4>
 
-
+            <%if (myChatsUsers.size() > 0 ) {%>
+            <table width="100%" border="1">
+                <colgroup>
+                    <col width="440">
+                    <col width="200">
+                </colgroup>
+                <% for (MyMessage myMessage: myChatsUsers) {%>
+                <%MyUser temp = securityService.checkAndGetMyUser(myMessage.getUserIdTo()).get();%>
+                <tr>
+                    <td bgcolor="#ffe4c4">
+                        <p>Беседа с <a href="${pageContext.request.contextPath}/myMessages?id=<%=myMessage.getUserIdTo()%>"><%=temp.getLastName()%> <%=temp.getFirstName()%></a> :</p>
+                        <%=myMessage.isFrom() ? l.get("I'm") : temp.getLastName() + " " + temp.getFirstName()%>: <%=myMessage.getText()%>
+                    </td>
+                    <td>
+                        <%=myMessage.getDatetime()%>
+                    </td>
+                </tr>
+                <%}%>
+            </table>
+            <%} else {%>
+                <h4><div style="text-align: left;"><%=l.get("Messages List. IsEmpty")%></div></h4>
+            <%}%>
 
 
 

@@ -35,7 +35,8 @@ public interface MyUserDao {
         String lcStr = str.toLowerCase();
         return findAll().parallelStream()
                 .filter(myUser -> myUser.getLastName().toLowerCase().contains(lcStr) ||
-                        myUser.getFirstName().toLowerCase().contains(lcStr)).collect(Collectors.toList());
+                        myUser.getFirstName().toLowerCase().contains(lcStr) ||
+                        (myUser.getLastName().toLowerCase() + " " + myUser.getFirstName().toLowerCase()).contains(lcStr) ).collect(Collectors.toList());
     }
 
     Collection<MyUser> findQueryFriends(MyUser myUser);

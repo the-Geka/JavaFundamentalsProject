@@ -18,7 +18,7 @@
     <title><%=l.get("Title")%></title>
 </head>
 <body>
-<h1><div style="text-align: center;"><%=l.get("Title")%></div></h1>
+<h1><div style="text-align: center;"><%=l.get("WelcomeMSG")%></div></h1>
 <table width="800" align="center" border="0">
     <colgroup>
         <col width="200">

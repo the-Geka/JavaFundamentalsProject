@@ -61,28 +61,31 @@ public class MyMessages extends HttpServlet {
             return;
         }
 
-        req.setAttribute("myUsersQueryFriendsSize", myUserDao.findQueryFriends(myUser).size());
         req.setAttribute(REQUESTED_URL, req.getRequestURI() + ofNullable(req.getQueryString()).map(s -> "?" + s).orElse(""));
+        req.setAttribute("myUsersQueryFriendsSize", myUserDao.findQueryFriends(myUser).size());
         req.setAttribute("l", myLocaleService.getLocalizedFields(NAME, req));
         if (myChatUser.isPresent()) {
-
+            //req.setAttribute(REQUESTED_URL, req.getRequestURI() + "?id=" + myChatUser.get().getId());
             ofNullable(req.getParameter("msg"))
-                    .map(name -> new MyMessage(myUser.getId(), myChatUser.get().getId(), new Date(), name, true))
+                    .map(name -> new MyMessage(myUser.getId(), myChatUser.get().getId(), new Date(), name, true, true))
                     .ifPresent(myMessageDao::add);
 
             int offset = ofNullable(req.getParameter("offset"))
-                    .map(Integer::parseInt).orElse(0);
-            offset *= 10;
+                    .map(Integer::parseInt).orElse(1);
 
-            req.setAttribute("myMessages",  myMessageDao.findMessages(myUser, myChatUser.get(), offset));
-
-
+            req.setAttribute("myMessages", myMessageDao.findMessages(myUser, myChatUser.get(), offset - 1));
+            req.setAttribute("pagger", myMessageDao.getPager(myUser, myChatUser.get(), offset));
 
 
             req.setAttribute("myChatUser", myChatUser.get());
             req.getRequestDispatcher(VIEW_CHAT).forward(req, resp);
-        } else
+        } else {
+
+            req.setAttribute("securityService", securityService);
+            req.setAttribute("myChatsUsers", myMessageDao.findMessageById(myUser));
+
             req.getRequestDispatcher(VIEW).forward(req, resp);
+        }
     }
 
     @Override

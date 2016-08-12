@@ -20,4 +20,8 @@ public class MyMessage {
 
     private final boolean isRead;
 
+    private final boolean isFrom;
+
+
+
 }

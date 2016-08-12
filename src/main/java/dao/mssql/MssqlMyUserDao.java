@@ -177,7 +177,7 @@ public class MssqlMyUserDao implements MyUserDao {
             ResultSet rs = cstmt.getResultSet();
             while (rs.next())
                 myUsers.add(findOne(rs.getLong(1)).orElse(new MyUser(-1, "Deleted", "Deleted", "Deleted", "Deleted", -1)));
-
+            rs.close();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
